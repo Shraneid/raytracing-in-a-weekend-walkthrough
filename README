@@ -1,0 +1,22 @@
+# Raytracer Project
+
+## How to find what you are looking for in the commits
+
+You can use the progress_screenshots folder to find any meaningful milestone and move between these commits.
+I am otherwise loosely commiting a lot of stuff at once which might be hard to follow (and therefore my commit messages don't mean much...)
+
+## How to compile
+
+You can use the "basic" vscode setup to compile C++ using the tasks.json file
+
+## How to view output
+
+Until refactored, the output uses the ppm fileformat which is unfortunately pretty much unreadable on Windows 11
+However you can go to [this site](https://www.cs.rhodes.edu/welshc/COMP141_F16/ppmReader.html) to load your ppm in the browser and view the file
+(I guess you could also create your own visualizer or find one on github since ppm is such a simple format)
+
+I'll probably try to output to png or jpeg as an exercise once this project's done (although might be a little complex from what I know about both formats)
+
+## Credits
+
+This work is based on the book [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html) by Peter Shirley, Trevor David Black, Steve Hollasch
