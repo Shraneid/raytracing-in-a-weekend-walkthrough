@@ -6,10 +6,10 @@
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\src\\*.cpp",
                 "-o",
-                "${fileDirname}\\build\\build.exe",
-                "${fileDirname}\\main.cpp",
-                "${fileDirname}\\*.cpp"
+                "${workspaceFolder}\\build\\build.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"
