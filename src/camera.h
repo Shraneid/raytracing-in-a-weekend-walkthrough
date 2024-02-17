@@ -81,7 +81,7 @@ private:
         if (world.hit(r, interval(0.001, infinity), rec))
         {
             vec3 bounced_direction = rec.normal + random_unit_vector();
-            return 0.1 * ray_color(ray(rec.point_of_contact, bounced_direction), depth - 1, world);
+            return 0.5 * ray_color(ray(rec.point_of_contact, bounced_direction), depth - 1, world);
         }
 
         vec3 unit_direction = unit_vector(r.direction());
