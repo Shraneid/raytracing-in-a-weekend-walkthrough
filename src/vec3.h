@@ -125,6 +125,7 @@ inline vec3 unit_vector(const vec3 &u)
     return u / u.length();
 }
 
+// TODO:
 // not sure if this is really needed ? if it is I don't understand yet why.
 // Will have to check later on in the project but since we take the unit vector
 // in the end, then I don't really see the point. For now it doesn't affect the rendering
@@ -158,9 +159,19 @@ inline vec3 random_on_hemisphere(const vec3 &normal)
     }
 }
 
-vec3 reflect(const vec3 &v, const vec3 &n)
+inline vec3 reflect(const vec3 &v, const vec3 &normal)
 {
-    return v - 2 * dot(v, n) * n;
+    return v - 2 * dot(v, normal) * normal;
+}
+
+inline vec3 refract(const vec3 &unit_direction_vector, const vec3 &normal, const double &etai_over_etat)
+{
+    auto cos_theta = fmin(dot(-unit_direction_vector, normal), 1.0);
+
+    vec3 refracted_perpendicular = etai_over_etat * (unit_direction_vector + cos_theta * normal);
+    vec3 refracted_parallel = -sqrt(fabs(1 - refracted_perpendicular.length_squared())) * normal;
+
+    return refracted_parallel + refracted_perpendicular;
 }
 
 #endif
