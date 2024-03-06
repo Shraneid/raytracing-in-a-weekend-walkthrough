@@ -125,10 +125,25 @@ inline vec3 unit_vector(const vec3 &u)
     return u / u.length();
 }
 
+inline vec3 random_in_unit_disk()
+{
+    while (true)
+    {
+        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.length_squared() < 1)
+        {
+            return p;
+        }
+    }
+}
+
 // TODO:
 // not sure if this is really needed ? if it is I don't understand yet why.
+// I think it is to have a perfect distribution, whereas not having it
+// would generate a vector in the unit cube and therefore having a bias towards the corners.
+// same thing in random unit disk above which made me realize this
 // Will have to check later on in the project but since we take the unit vector
-// in the end, then I don't really see the point. For now it doesn't affect the rendering
+// in the end, then I don't really see the point. For now, it doesn't seem to affect the rendering
 inline vec3 random_in_unit_sphere()
 {
     while (true)

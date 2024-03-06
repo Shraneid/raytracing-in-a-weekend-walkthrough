@@ -12,31 +12,71 @@ int main()
 {
     hittable_list world;
 
-    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-    auto material_center = make_shared<lambertian>(color(0.7, 0.3, 0.3));
-    auto material_left = make_shared<metal>(color(0.2, 0.2, 0.8), 0.3);
-    auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.8);
+    auto material_ground = make_shared<lambertian>(color(0.75, 1.0, 0.5));
+    auto material_red = make_shared<lambertian>(color(0.8, 0.0, 0.0));
+
+    auto material_metal = make_shared<metal>(color(0.8, 0.8, 0.8), 0.0);
+
     auto material_glass = make_shared<dielectric>(1.5);
 
-    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
+    // ground
+    world.add(make_shared<sphere>(point3(0.0, -1000.0, 0.0), 1000.0, material_ground));
 
-    // left
-    world.add(make_shared<sphere>(point3(-1.0, 0, -1.0), 0.5, material_glass));
-    world.add(make_shared<sphere>(point3(-1.0, 0, -1.0), -0.3, material_glass));
+    // big spheres
+    world.add(make_shared<sphere>(point3(4.0, 1.0, 0.0), 1.0, material_metal));
 
-    // center
-    world.add(make_shared<sphere>(point3(-0.5, 0, -1.5), 0.5, material_center));
-    world.add(make_shared<sphere>(point3(0., -0.2, -1.0), 0.2, material_glass));
+    world.add(make_shared<sphere>(point3(0.0, 1.0, 0.0), 1.0, material_glass));
 
-    // right
-    world.add(make_shared<sphere>(point3(1.0, 0, -1.0), 0.5, material_right));
+    world.add(make_shared<sphere>(point3(-4.0, 1.0, 0.0), 1.0, material_glass));
+    world.add(make_shared<sphere>(point3(-4.0, 1.0, 0.0), -0.6, material_glass));
+
+    world.add(make_shared<sphere>(point3(-8.0, 1.0, 0.0), 1.0, material_red));
+
+    // small spheres
+    auto radius = 0.2;
+    for (int j = -11; j < 11; j++)
+    {
+        for (int i = -11; i < 11; i++)
+        {
+            shared_ptr<material> sphere_material;
+            point3 sphere_pos(i + (1 - radius / 2) * random_double(), radius, j + (1 - radius / 2) * random_double());
+
+            auto material_random = random_double();
+            if (material_random < 0.6)
+            {
+                sphere_material = make_shared<lambertian>(color(random_double(), random_double(), random_double()));
+            }
+            else if (material_random < 0.80)
+            {
+                sphere_material = make_shared<metal>(color(random_double(), random_double(), random_double()), random_double());
+            }
+            else
+            {
+                sphere_material = make_shared<dielectric>(1.5);
+            }
+
+            world.add(make_shared<sphere>(sphere_pos, radius, sphere_material));
+        }
+    }
 
     camera cam;
 
     cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = 400;
-    cam.samples_per_pixel = 100;
-    cam.max_depth = 20;
+    cam.image_width = 1000;
+    // cam.image_width = 200;
+    cam.samples_per_pixel = 500;
+    // cam.samples_per_pixel = 100;
+    // cam.max_depth = 20;
+    cam.max_depth = 40;
+
+    cam.vertical_fov = 25;
+
+    cam.look_from = point3(11, 2, 4);
+    cam.look_at = point3(0, 0.5, 0);
+    cam.v_up = vec3(0, 1, 0);
+
+    cam.defocus_angle = 0.7;
+    cam.focus_distance = 12.0;
 
     cam.render(world);
 }
